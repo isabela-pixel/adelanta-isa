@@ -17,6 +17,8 @@ export async function GET(req) {
     const hoy = hoyCaracas(); // YYYY-MM-DD
     const [y, m, d] = hoy.split("-").map(Number);
     if (d < 2) return NextResponse.json({ ok: true, creada: false, motivo: "Todavía no es día 2" });
+    // Isa presta servicios a Adelanta desde noviembre 2026: la primera factura se crea en diciembre 2026.
+    if (y * 100 + m < 202612) return NextResponse.json({ ok: true, creada: false, motivo: "Antes de la primera factura (dic 2026)" });
 
     const clave = `recurrente:factura-adelanta:${y}-${String(m).padStart(2, "0")}`;
     const existe = await notion(`/databases/${DB_TAREAS}/query`, {
