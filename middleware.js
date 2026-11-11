@@ -12,5 +12,5 @@ export async function middleware(req) {
 
 export const config = {
   // Todo requiere sesión menos el login, el endpoint de recordatorios (usa su propia clave) y los estáticos.
-  matcher: ["/((?!login|api/login|api/remind|_next|favicon|manifest|icon).*)"],
+  matcher: ["/((?!login|api/login|api/remind|api/recurrentes|_next|favicon|manifest|icon).*)"],
 };

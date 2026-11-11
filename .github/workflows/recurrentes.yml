@@ -1,0 +1,16 @@
+name: Tareas recurrentes
+
+# Día 2 de cada mes a las 8:05 am (Caracas) = 12:05 UTC.
+# Reintenta los días 3 y 4 por si GitHub se saltó la corrida (el endpoint no duplica).
+on:
+  schedule:
+    - cron: "5 12 2,3,4 * *"
+  workflow_dispatch: {}
+
+jobs:
+  recurrentes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Crear tareas recurrentes del mes
+        run: |
+          curl -fsS -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" "${{ secrets.DASHBOARD_URL }}/api/recurrentes"

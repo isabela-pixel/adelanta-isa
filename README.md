@@ -9,6 +9,8 @@ Dashboard personal que lee y escribe directo en Notion (página privada **Mi cen
 - Bandeja de cambios propuestos por Claude con botones de aprobar / rechazar.
 - Último briefing de Claude y cambios aplicados.
 - Crear tareas manuales.
+- Tareas fijadas (📌) siempre arriba.
+- Tarea recurrente: el día 2 de cada mes se crea «Hacer y enviar la factura de servicios a Adelanta», prioridad Alta, vence el 9, fijada (GitHub Actions → /api/recurrentes).
 - Recordatorios por correo (Resend, vía GitHub Actions) cuando una entrega está cerca y no hay avance.
 
 ## Variables de entorno (Vercel → Settings → Environment Variables)

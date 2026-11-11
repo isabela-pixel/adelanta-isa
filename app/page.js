@@ -294,6 +294,7 @@ export default function Dashboard() {
 
   const ordenadas = useMemo(() => {
     return [...lista].sort((a, b) => {
+      if (!!a.fijada !== !!b.fijada) return a.fijada ? -1 : 1; // fijadas siempre primero
       const da = diasHasta(a.fecha), db = diasHasta(b.fecha);
       const ua = da !== null && da <= 2 ? 0 : 1, ub = db !== null && db <= 2 ? 0 : 1;
       if (ua !== ub) return ua - ub;
@@ -303,13 +304,15 @@ export default function Dashboard() {
 
   const grupos = useMemo(() => {
     if (agrupar === "lista") return [["", ordenadas]];
+    const fijadas = ordenadas.filter((t) => t.fijada);
+    const resto = ordenadas.filter((t) => !t.fijada);
     const key = agrupar === "prioridad" ? (t) => t.prioridad || "Sin prioridad" : agrupar === "area" ? (t) => t.area || "Sin área" : (t) => t.estado;
     const orderList = agrupar === "prioridad" ? ["Alta", "Media", "Baja", "Sin prioridad"] : null;
     const map = new Map();
-    ordenadas.forEach((t) => { const k = key(t); if (!map.has(k)) map.set(k, []); map.get(k).push(t); });
+    resto.forEach((t) => { const k = key(t); if (!map.has(k)) map.set(k, []); map.get(k).push(t); });
     const entries = [...map.entries()];
     if (orderList) entries.sort((a, b) => orderList.indexOf(a[0]) - orderList.indexOf(b[0]));
-    return entries;
+    return fijadas.length ? [["📌 Fijadas", fijadas], ...entries] : entries;
   }, [ordenadas, agrupar]);
 
   const totalPasos = activas.reduce((s, t) => s + (t.pasosTotales || 0), 0);
